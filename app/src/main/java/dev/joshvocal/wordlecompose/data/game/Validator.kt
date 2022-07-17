@@ -1,28 +1,24 @@
 package dev.joshvocal.wordlecompose.data.game
 
-enum class CharacterState {
-    Correct,
-    WrongPosition,
-    Incorrect,
-    Unknown,
-}
-
-typealias WordGuess = Array<CharacterState>
-
-fun WordGuess.isCorrect(): Boolean = all { characterState ->
-    characterState == CharacterState.Correct
-}
 
 object Validator {
-    fun validate(guess: String, target: String): WordGuess {
+    fun isWordValid(word: String, dictionary: List<String>): InputState {
+        return when {
+            word.length < WordleGame.MAX_WORD_LENGTH -> InputState.NotEnoughLetters
+            word.length == WordleGame.MAX_WORD_LENGTH && !dictionary.contains(word.lowercase()) -> InputState.NotInWordList
+            else -> InputState.Valid
+        }
+    }
+
+    fun validateGuess(guess: String, target: String): WordGuess {
         val validatedGuess = Array(target.length) {
             CharacterState.Unknown
         }
 
         val unconfirmedChars = hashSetOf<Char>()
 
-        val guessChars = guess.lowercase().toCharArray()
-        val targetChars = target.lowercase().toCharArray()
+        val guessChars = guess.uppercase().toCharArray()
+        val targetChars = target.uppercase().toCharArray()
         val guessAndTargetChars = guessChars.zip(targetChars)
 
         guessAndTargetChars.forEachIndexed { index, (guessChar, targetChar) ->
@@ -41,12 +37,14 @@ object Validator {
 
             validatedGuess[index] = if (unconfirmedChars.contains(guessChar)) {
                 unconfirmedChars.remove(guessChar)
-                CharacterState.WrongPosition
+                CharacterState.Present
             } else {
-                CharacterState.Incorrect
+                CharacterState.Absent
             }
         }
 
-        return validatedGuess
+        return guessChars.zip(validatedGuess).map { (character, state) ->
+            WordleLetter(character = character, state = state)
+        }.toTypedArray()
     }
 }

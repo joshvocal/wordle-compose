@@ -3,38 +3,20 @@ package dev.joshvocal.wordlecompose
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
-import dev.joshvocal.wordlecompose.ui.theme.WordleComposeTheme
+import dev.joshvocal.wordlecompose.ui.game.WordleGameScreen
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        val wordList: List<String> = assets.open("word_list.txt")
+            .bufferedReader()
+            .use { it.readText() }
+            .split("\n")
+        val wordOfTheDay = wordList.random()
+
         setContent {
-            WordleComposeTheme {
-                // A surface container using the 'background' color from the theme
-                Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colors.background) {
-                    Greeting("Android")
-                }
-            }
+            WordleGameScreen(wordList = wordList, wordOfTheDay = wordOfTheDay)
         }
-    }
-}
-
-@Composable
-fun Greeting(name: String) {
-    Text(text = "Hello $name!")
-}
-
-@Preview(showBackground = true)
-@Composable
-fun DefaultPreview() {
-    WordleComposeTheme {
-        Greeting("Android")
     }
 }

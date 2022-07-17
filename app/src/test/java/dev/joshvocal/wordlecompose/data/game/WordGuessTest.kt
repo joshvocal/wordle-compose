@@ -12,7 +12,7 @@ class WordGuessTest {
 
         val expect = true
 
-        val actual = Validator.validate(
+        val actual = Validator.validateGuess(
             guess = guess,
             target = target,
         ).isCorrect()
@@ -27,7 +27,7 @@ class WordGuessTest {
 
         val expect = false
 
-        val actual = Validator.validate(
+        val actual = Validator.validateGuess(
             guess = guess,
             target = target,
         ).isCorrect()
