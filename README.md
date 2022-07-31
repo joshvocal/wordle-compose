@@ -21,3 +21,9 @@ https://user-images.githubusercontent.com/9855136/182003657-8b746cc0-3503-4157-a
 | Victory                           | Loss                               | Tutorial                               | Settings                               |
 | --------------------------------- | ---------------------------------- | -------------------------------------- | -------------------------------------- |
 | <img src="screenshots/win.png" /> | <img src="screenshots/loss.png" /> | <img src="screenshots/tutorial.png" /> | <img src="screenshots/settings.png" /> |
+
+### Missing Features
+
+- Leaderboard
+- Persistance to keep track of previous days and scores
+- Wordle of the day (It's currently random words)
